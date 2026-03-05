@@ -33,10 +33,10 @@ public class PageResponseDTO<E> {
         this.end = (int) (Math.ceil(this.page / (double) perPage) * perPage);
         this.start = this.end - 4;
 
-        if (this.page > perPage / 2) {
-            this.end = this.page + (perPage / 2);
-            this.start = this.page - (perPage / 2);
-        }
+//        if (this.page > perPage / 2) {
+//            this.end = this.page + (perPage / 2);
+//            this.start = this.page - (perPage / 2);
+//        }
 
         int last = (int) (Math.ceil(total / (double) size)); // 게시물 기준 마지막 페이지
         this.end = Math.min(end, last);

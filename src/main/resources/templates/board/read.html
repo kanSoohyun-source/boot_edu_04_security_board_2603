@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Board Read</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    Board Read
+                </div>
+                <div class="card-body">
+                    <div class="card-body">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Title</span>
+                            <input type="text" name="title" class="form-control" placeholder="Title"
+                                   th:value="${boardDTO.title}">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Content</span>
+                            <textarea class="form-control col-sm-5" rows="5" name="content"
+                                      th:text="${boardDTO.content}"></textarea>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Writer</span>
+                            <input type="text" name="writer" class="form-control" placeholder="Writer"
+                                   th:value="${boardDTO.writer}">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">RegDate</span>
+                            <input type="text" name="regDate" class="form-control" placeholder="regDate"
+                            th:value="${boardDTO.regDate}">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">ModDate</span>
+                            <input type="text" name="modDate" class="form-control" placeholder="modDate"
+                            th:value="${boardDTO.modDate}">
+                        </div>
+
+                        <div class="my-4">
+                            <div class="float-end">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="reset" class="btn btn-secondary">Reset</button>
+                            </div>
+                        </div>
+                    </div><!-- end card body -->
+                </div><!-- end card body -->
+            </div><!-- end card -->
+        </div><!-- end col -->
+    </div><!-- end row -->
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+    // const errors = [[${errors}]]
+    // console.log(errors)
+    //
+    // let errorsMessage = ''
+    // if (errors) {
+    //     for (let i = 0; i < errors.length; i++) {
+    //         errorsMessage += `${errors[i].field}는(은)${errors[i].code} \n`
+    //     }
+    //     alert(errorsMessage)
+    // }
+
+</script>
+</body>
+</html>
