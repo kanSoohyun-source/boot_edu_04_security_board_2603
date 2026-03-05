@@ -43,14 +43,14 @@ public class PageRequestDTO {
             StringBuilder stringBuilder = new StringBuilder();
             // 주소에 항상 있어야 하는 값
             stringBuilder.append("page=").append(this.page);
-            stringBuilder.append("size=").append(this.size);
+            stringBuilder.append("&size=").append(this.size);
 
             // type
             if (this.type != null && !this.type.isEmpty()) {
-                stringBuilder.append("type=").append(this.type);
+                stringBuilder.append("&type=").append(this.type);
             }
             if (this.keyword != null && !this.keyword.isEmpty()) {
-                stringBuilder.append("keyword=").append(URLEncoder.encode(this.keyword, StandardCharsets.UTF_8));
+                stringBuilder.append("&keyword=").append(URLEncoder.encode(this.keyword, StandardCharsets.UTF_8));
             }
             this.link = stringBuilder.toString();
         }

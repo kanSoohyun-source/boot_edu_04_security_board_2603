@@ -99,7 +99,7 @@ class BoardRepositoryTest {
         Long bno = 100L;
         Optional<Board> result = boardRepository.findById(bno);
         Board board = result.orElseThrow();
-        board.change("제목 수정 중", "내용 수정 중");
+        board.change("제목 수정 중", "내용 수정 중", "작성자 수정 중");
         boardRepository.save(board);
     }
 

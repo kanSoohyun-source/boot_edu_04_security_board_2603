@@ -44,6 +44,22 @@
                 </div><!-- end card -->
             </div><!-- end col -->
         </div><!-- end row -->
+
+        <style>
+            .ck-editor__editable_inline {
+                min-height: 300px; /* 세로 크기 조정 */
+                max-height: 500px;
+                height: 400px;
+            }
+            .ck-editor {
+                width: 100%; /* 가로 크기 조정 */
+            }
+            .ck-reset_all :not(.ck-reset_all-excluded *), .ck.ck-reset, .ck.ck-reset_all {
+                width: 100%; /* 에디터의 가로 크기를 100%로 설정 */
+                max-width: 800px;
+            }
+
+        </style>
     </div>
 
 <script layout:fragment="script" th:inline="javascript">
@@ -57,6 +73,16 @@
         }
         alert(errorsMessage)
     }
+
+    ClassicEditor
+        .create(document.querySelector('textarea[name=content]'), {
+            ckfinder: {
+                uploadUrl: '/api/upload/editor', // Spring Boot에서 처리할 URL
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
 
 </script>
 </body>

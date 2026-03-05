@@ -18,38 +18,36 @@
                     <div class="card-body">
                         <div class="input-group mb-3">
                             <span class="input-group-text">Title</span>
-                            <input type="text" name="title" class="form-control" placeholder="Title"
-                                   th:value="${boardDTO.title}">
+                            <input type="text" name="title" class="form-control" th:value="${boardDTO.title}" readonly>
                         </div>
 
                         <div class="input-group mb-3">
-                            <span class="input-group-text">Content</span>
-                            <textarea class="form-control col-sm-5" rows="5" name="content"
-                                      th:text="${boardDTO.content}"></textarea>
+                            <p th:utext="${boardDTO.content}"></p>
                         </div>
 
                         <div class="input-group mb-3">
                             <span class="input-group-text">Writer</span>
-                            <input type="text" name="writer" class="form-control" placeholder="Writer"
-                                   th:value="${boardDTO.writer}">
+                            <input type="text" name="writer" class="form-control" th:value="${boardDTO.writer}" readonly>
                         </div>
 
                         <div class="input-group mb-3">
                             <span class="input-group-text">RegDate</span>
-                            <input type="text" name="regDate" class="form-control" placeholder="regDate"
-                            th:value="${boardDTO.regDate}">
+                            <input type="text" name="regDate" class="form-control" th:value="${boardDTO.regDate}" readonly>
                         </div>
 
                         <div class="input-group mb-3">
                             <span class="input-group-text">ModDate</span>
-                            <input type="text" name="modDate" class="form-control" placeholder="modDate"
-                            th:value="${boardDTO.modDate}">
+                            <input type="text" name="modDate" class="form-control" th:value="${boardDTO.modDate}" readonly>
                         </div>
 
                         <div class="my-4">
-                            <div class="float-end">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                                <button type="reset" class="btn btn-secondary">Reset</button>
+                            <div class="float-end" th:with="link = ${pageRequestDTO.getLink()}">
+                                <a th:href="|@{/board/list}?${link}|" class="text-decoration-none">
+                                    <button type="button" class="btn btn-primary">List</button>
+                                </a>
+                                <a th:href="|@{/board/modify(bno=${boardDTO.bno})}&${link}|" class="text-decoration-none">
+                                    <button type="button" class="btn btn-secondary">Modify</button>
+                                </a>
                             </div>
                         </div>
                     </div><!-- end card body -->
@@ -60,16 +58,6 @@
 </div>
 
 <script layout:fragment="script" th:inline="javascript">
-    // const errors = [[${errors}]]
-    // console.log(errors)
-    //
-    // let errorsMessage = ''
-    // if (errors) {
-    //     for (let i = 0; i < errors.length; i++) {
-    //         errorsMessage += `${errors[i].field}는(은)${errors[i].code} \n`
-    //     }
-    //     alert(errorsMessage)
-    // }
 
 </script>
 </body>

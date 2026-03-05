@@ -40,9 +40,10 @@ public class BoardServiceImpl implements BoardService {
     public void modify(BoardDTO boardDTO) {
         // 수정 시 boardDTO에 필요한 데이터 -> bno, title, content
         // jpa의 save 이용 할 땐 Board 엔티티의 모든 데이터가 있어야 함
+        // 03.05 ++ 수정 사항에 writer 추가
         Optional<Board> optionalBoard = boardRepository.findById(boardDTO.getBno());
         Board board = optionalBoard.orElseThrow(); // orElseThrow() : 값이 존재하는 경우 값 반환, 그 외 예외 발생
-        board.change(boardDTO.getTitle(), boardDTO.getContent());
+        board.change(boardDTO.getTitle(), boardDTO.getContent(), boardDTO.getWriter());
         boardRepository.save(board);
     }
 

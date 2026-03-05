@@ -23,8 +23,9 @@ public class Board extends BaseEntity {
     @Column(length = 50, nullable = false)
     private String writer;
 
-    public void change(String title, String content) {
+    public void change(String title, String content, String writer) {
         this.title = title;
         this.content = content;
+        this.writer = writer;
     }
 }
