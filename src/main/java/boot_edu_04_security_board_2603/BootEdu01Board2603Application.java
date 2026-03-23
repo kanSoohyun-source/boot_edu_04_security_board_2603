@@ -1,4 +1,4 @@
-package boot_edu_01_board_2603;
+package boot_edu_04_security_board_2603;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

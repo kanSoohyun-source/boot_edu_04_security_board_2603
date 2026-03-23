@@ -1,7 +1,7 @@
-package boot_edu_01_board_2603.repository;
+package boot_edu_04_security_board_2603.repository;
 
-import boot_edu_01_board_2603.domain.Board;
-import boot_edu_01_board_2603.repository.search.BoardSearch;
+import boot_edu_04_security_board_2603.domain.Board;
+import boot_edu_04_security_board_2603.repository.search.BoardSearch;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

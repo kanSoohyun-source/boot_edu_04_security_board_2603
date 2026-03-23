@@ -1,6 +1,7 @@
 package boot_edu_01_board_2603.repository;
 
-import boot_edu_01_board_2603.domain.Board;
+import boot_edu_04_security_board_2603.domain.Board;
+import boot_edu_04_security_board_2603.repository.BoardRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
@@ -12,8 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @Log4j2
 @SpringBootTest

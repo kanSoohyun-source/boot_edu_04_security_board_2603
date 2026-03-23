@@ -1,4 +1,4 @@
-package boot_edu_01_board_2603.controller;
+package boot_edu_04_security_board_2603.controller;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.GetMapping;

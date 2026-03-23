@@ -1,4 +1,4 @@
-package boot_edu_01_board_2603.dto;
+package boot_edu_04_security_board_2603.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;

@@ -1,8 +1,8 @@
-package boot_edu_01_board_2603.service;
+package boot_edu_04_security_board_2603.service;
 
-import boot_edu_01_board_2603.dto.BoardDTO;
-import boot_edu_01_board_2603.dto.PageRequestDTO;
-import boot_edu_01_board_2603.dto.PageResponseDTO;
+import boot_edu_04_security_board_2603.dto.BoardDTO;
+import boot_edu_04_security_board_2603.dto.PageRequestDTO;
+import boot_edu_04_security_board_2603.dto.PageResponseDTO;
 
 public interface BoardService {
     // 등록

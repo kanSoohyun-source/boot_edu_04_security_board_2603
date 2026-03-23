@@ -1,10 +1,10 @@
-package boot_edu_01_board_2603.service;
+package boot_edu_04_security_board_2603.service;
 
-import boot_edu_01_board_2603.domain.Board;
-import boot_edu_01_board_2603.dto.BoardDTO;
-import boot_edu_01_board_2603.dto.PageRequestDTO;
-import boot_edu_01_board_2603.dto.PageResponseDTO;
-import boot_edu_01_board_2603.repository.BoardRepository;
+import boot_edu_04_security_board_2603.domain.Board;
+import boot_edu_04_security_board_2603.dto.BoardDTO;
+import boot_edu_04_security_board_2603.dto.PageRequestDTO;
+import boot_edu_04_security_board_2603.dto.PageResponseDTO;
+import boot_edu_04_security_board_2603.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;

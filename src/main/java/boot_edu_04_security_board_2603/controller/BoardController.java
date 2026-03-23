@@ -1,12 +1,13 @@
-package boot_edu_01_board_2603.controller;
+package boot_edu_04_security_board_2603.controller;
 
-import boot_edu_01_board_2603.dto.BoardDTO;
-import boot_edu_01_board_2603.dto.PageRequestDTO;
-import boot_edu_01_board_2603.dto.PageResponseDTO;
-import boot_edu_01_board_2603.service.BoardService;
+import boot_edu_04_security_board_2603.dto.BoardDTO;
+import boot_edu_04_security_board_2603.dto.PageRequestDTO;
+import boot_edu_04_security_board_2603.dto.PageResponseDTO;
+import boot_edu_04_security_board_2603.service.BoardService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,6 +34,7 @@ public class BoardController {
     }
 
     // 등록 /board/add
+    @PreAuthorize("hasRole('USER')") // 'USER' 이라는 권한이 있는지 확인
     @GetMapping("/add")
     public void add() {
         log.info("add get...");

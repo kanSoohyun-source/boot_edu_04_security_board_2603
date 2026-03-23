@@ -1,16 +1,15 @@
 package boot_edu_01_board_2603.service;
 
-import boot_edu_01_board_2603.dto.BoardDTO;
-import boot_edu_01_board_2603.dto.PageRequestDTO;
-import boot_edu_01_board_2603.dto.PageResponseDTO;
+import boot_edu_04_security_board_2603.dto.BoardDTO;
+import boot_edu_04_security_board_2603.dto.PageRequestDTO;
+import boot_edu_04_security_board_2603.dto.PageResponseDTO;
+import boot_edu_04_security_board_2603.service.BoardService;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @Log4j2
 @SpringBootTest

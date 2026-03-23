@@ -1,7 +1,7 @@
-package boot_edu_01_board_2603.repository.search;
+package boot_edu_04_security_board_2603.repository.search;
 
-import boot_edu_01_board_2603.domain.Board;
-import boot_edu_01_board_2603.domain.QBoard;
+import boot_edu_04_security_board_2603.domain.Board;
+import boot_edu_04_security_board_2603.domain.QBoard;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.domain.Page;

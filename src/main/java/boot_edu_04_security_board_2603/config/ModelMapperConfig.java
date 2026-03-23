@@ -1,4 +1,4 @@
-package boot_edu_01_board_2603.config;
+package boot_edu_04_security_board_2603.config;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.config.Configuration.AccessLevel;
