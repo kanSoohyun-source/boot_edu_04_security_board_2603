@@ -29,7 +29,8 @@
 
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">Writer</span>
-                                    <input type="text" name="writer" class="form-control" placeholder="Writer">
+                                    <input type="text" name="writer" class="form-control" placeholder="Writer"
+                                    th:value="${#authentication.principal.username}">
                                 </div>
 
                                 <div class="my-4">
@@ -63,6 +64,10 @@
     </div>
 
 <script layout:fragment="script" th:inline="javascript">
+    /* JS 에서 인증 정보를 보는 법 */
+    // "현재 로그인한 사용자의 정보를 자바스크립트 변수에 담아라"라는 뜻
+    const auth = [[${#authentication.principal}]];
+
     const errors = [[${errors}]]
     console.log(errors)
 

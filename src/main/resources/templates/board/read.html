@@ -45,7 +45,9 @@
                                 <a th:href="|@{/board/list}?${link}|" class="text-decoration-none">
                                     <button type="button" class="btn btn-primary">List</button>
                                 </a>
-                                <a th:href="|@{/board/modify(bno=${boardDTO.bno})}&${link}|" class="text-decoration-none">
+                                <!-- 현재 로그인한 사용자와 게시문의 작성자가 같은 경우에만 하단의 Modify 버튼 활성화 -->
+                                <a th:if="${#authentication.principal.username != null && #authentication.principal.username == boardDTO.writer}"
+                                   th:href="|@{/board/modify(bno=${boardDTO.bno})}&${link}|" class="text-decoration-none">
                                     <button type="button" class="btn btn-secondary">Modify</button>
                                 </a>
                             </div>

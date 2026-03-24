@@ -60,8 +60,10 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
-    // 조회, 수정
-    @GetMapping({"/read", "/modify"})
+    // 로그인한 사용자만 조회할 수 있도록 수정
+    // 수정
+    @PreAuthorize("isAuthenticated()") // 인증 여부 확인
+    @GetMapping("/read")
     public void read(Long bno, PageRequestDTO pageRequestDTO, Model model) {
         log.info("read get...");
 
@@ -70,6 +72,22 @@ public class BoardController {
         model.addAttribute("boardDTO", boardDTO);
     }
 
+    // 수정
+    @PreAuthorize("isAuthenticated()") // 인증 여부 확인
+    @GetMapping("/modify")
+    public void modify(Long bno, PageRequestDTO pageRequestDTO, Model model) {
+        log.info("modify get...");
+
+        BoardDTO boardDTO = boardService.readOne(bno);
+        // 작성자를 확인할 수 있는 시점
+        log.info("boardDTO: {}", boardDTO);
+        model.addAttribute("boardDTO", boardDTO);
+    }
+
+    // wkrtjdwk
+    @PreAuthorize("principal.username == #boardDTO.writer")
+    // 이런 방식으로 사용할 경우 작성자의 아이디가 화면에 노출되면 안됨
+    // 마이 페이지 외의 페이지에 개인 정보가 가능하면 나오지 않도록 하는 것이 보안상 좋음
     @PostMapping("/modify")
     public String modify(@Valid BoardDTO boardDTO, BindingResult bindingResult,
                          RedirectAttributes redirectAttributes,
@@ -94,8 +112,9 @@ public class BoardController {
     }
 
     // 삭제
+    @PreAuthorize("principal.username == #boardDTO.writer")
     @PostMapping("/remove")
-    public String remove(Long bno, PageRequestDTO pageRequestDTO) {
+    public String remove(Long bno, BoardDTO boardDTO, PageRequestDTO pageRequestDTO) {
         log.info("remove post...");
 
         boardService.remove(bno);

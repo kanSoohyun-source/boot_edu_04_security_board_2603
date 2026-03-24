@@ -11,7 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MemberController {
 
     @GetMapping("/login")
-    public void login() {
+    public void login(String error, String logout) {
         log.info("=== MemberController login ===");
+        log.info("logout: {}", logout);
+
+        if (logout != null) { // ?logout 형식으로 주소가 들어온 경우
+            log.info("=== User Logout ===");
+        }
     }
 }
