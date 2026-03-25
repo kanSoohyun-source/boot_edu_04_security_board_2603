@@ -17,12 +17,15 @@ public class Custom403Handler implements AccessDeniedHandler {
                        HttpServletResponse response,
                        AccessDeniedException accessDeniedException) throws IOException, ServletException {
         log.info("=== Custom403Handler handle ===");
+        boolean isJsonRequest = false;
 
         response.setStatus(HttpStatus.FORBIDDEN.value()); // 응답 코드에 403
 
         // JSON(ajax) 요청이었는지 확인
         String contentType = request.getHeader("Content-Type");
-        boolean isJsonRequest = contentType.contains("application/json");
+        if (contentType != null) {
+            isJsonRequest = contentType.contains("application/json");
+        }
         log.info("isJsonRequest: {}", isJsonRequest);
 
         // 일반 request

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+  <meta charset="UTF-8">
+  <title>Member Join Page</title>
+</head>
+
+<div layout:fragment="content">
+  <div class="row mt-3">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          JOIN
+        </div>
+        <div class="card-body">
+          <form id="registerForm" action="/member/join" method="post">
+            <div class="input-group mb-3">
+              <span class="input-group-text">MID</span>
+              <input type="text" name="mid" class="form-control" placeholder="아이디를 입력하세요">
+            </div>
+            <p></p>
+
+            <div class="input-group mb-3">
+              <span class="input-group-text">MPW</span>
+              <input type="password" name="mpw" class="form-control">
+            </div>
+
+            <div class="input-group mb-3">
+              <span class="input-group-text">EMAIL</span>
+              <input type="email" name="email" class="form-control">
+            </div>
+
+            <div class="my-4">
+              <div class="float-end">
+                <button type="submit" class="btn btn-primary submitBtn">Submit</button>
+                <button type="reset" class="btn btn-secondary">Reset</button>
+              </div>
+            </div>
+          </form>
+        </div><!--end card body-->
+      </div><!--end card-->
+    </div><!-- end col-->
+  </div><!-- end row-->
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+  const p = document.querySelector('p');
+  const midInput = document.querySelector('input[name=mid]');
+  const submitBtn = document.querySelector('.submitBtn');
+
+  // 아이디 사용 가능 여부를 저장할 변수 (상태 관리)
+  let isIdValid = false;
+
+  // 1. 실시간 입력 검사
+  midInput.addEventListener('input', function (evt) {
+    const midValue = evt.target.value;
+
+    if (midValue.length === 0) {
+      p.textContent = '';
+      isIdValid = false;
+      return;
+    }
+
+    fetch(`/member/isDupId?mid=${midValue}`)
+            .then(response => response.json())
+            .then(data => {
+              if (data.isDup) {
+                p.textContent = '이미 사용 중인 아이디입니다.';
+                p.style.color = 'red';
+                isIdValid = false; // 중복됨
+              } else {
+                p.textContent = '사용 가능한 아이디입니다.';
+                p.style.color = 'gray';
+                isIdValid = true;  // 사용 가능
+              }
+            })
+            .catch(err => console.error("중복 체크 오류:", err));
+  });
+
+  // 2. Submit 버튼 클릭 시 최종 검사
+  submitBtn.addEventListener('submit', function (e) {
+    // 일단 제출을 중지시킴
+    e.preventDefault();
+
+    if (!isIdValid) {
+      alert('아이디 중복 여부를 확인해 주세요.');
+      midInput.focus(); // 아이디 입력창으로 포커스 이동
+      return;
+    }
+
+    // 모든 조건이 통과되면 폼 제출
+    alert('회원가입을 진행합니다.');
+    registerForm.submit();
+  });
+</script>

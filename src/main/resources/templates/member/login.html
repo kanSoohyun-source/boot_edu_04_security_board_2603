@@ -22,6 +22,9 @@
             <th:block th:if="${param.logout != null}">
                 <h1>Logout.......</h1>
             </th:block>
+            <th:block th:if="${param.error != null}">
+                <h1>로그인 정보를 확인해주세요</h1>
+            </th:block>
             <form id="registerForm" action="/member/login" method="post">
                 <div class="input-group mb-3">
                     <span class="input-group-text">아이디</span>
