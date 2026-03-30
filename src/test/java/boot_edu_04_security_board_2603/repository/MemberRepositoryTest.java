@@ -51,4 +51,9 @@ class MemberRepositoryTest {
         member.getRoleSet().forEach(role -> log.info(role.name()));
     }
 
+    @Test
+    void updateWithPasswordTest() {
+        memberRepository.updateWithPassword("Member100", passwordEncoder.encode("2222"));
+    }
+
 }

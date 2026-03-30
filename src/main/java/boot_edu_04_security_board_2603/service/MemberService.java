@@ -1,17 +1,17 @@
 package boot_edu_04_security_board_2603.service;
 
-import boot_edu_04_security_board_2603.repository.MemberRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.stereotype.Service;
+import boot_edu_04_security_board_2603.dto.MemberJoinDTO;
 
-@Log4j2
-@Service
-@RequiredArgsConstructor
-public class MemberService {
-    private final MemberRepository memberRepository;
+public interface MemberService {
 
-    public boolean checkMid(String mid) {
-        return memberRepository.existsById(mid);
+    static class MidExistException extends Exception {
+
     }
+
+    void join(MemberJoinDTO memberJoinDTO) throws MidExistException;
+
+    // 아이디 중복 확인
+    boolean isDuplicateMid(String mid);
+
+    void modifyPassword(String mid, String mpw) throws MidExistException;
 }

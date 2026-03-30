@@ -61,6 +61,9 @@ dependencies {
 
     // 타임리프
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+
+    // OAuth2 Client - 소셜 로그인 기능을 구현하거나, 외부 권한 서버와 연동할 때 필수적인 요소
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 }
 
 tasks.named('test') {

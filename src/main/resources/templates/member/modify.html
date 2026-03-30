@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+  <meta charset="UTF-8">
+  <title>Member Password Modify Page</title>
+</head>
+
+<div layout:fragment="content">
+  <div class="row mt-3">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          MODIFY
+        </div>
+        <div class="card-body">
+          <form id="registerForm" action="/member/modify" method="post">
+            <div class="input-group mb-3">
+              <span class="input-group-text">비밀번호</span>
+              <input type="password" name="mpw" class="form-control">
+              <p class="mpw"></p>
+            </div>
+
+            <div class="input-group mb-3">
+              <span class="input-group-text">비밀번호 확인</span>
+              <input type="password" name="mpwCheck" class="form-control">
+              <p class="mpwCheck"></p>
+            </div>
+
+            <div class="my-4">
+              <div class="float-end">
+                <button type="submit" class="btn btn-primary submitBtn">Submit</button>
+                <button type="reset" class="btn btn-secondary">Reset</button>
+              </div>
+            </div>
+          </form>
+        </div><!--end card body-->
+      </div><!--end card-->
+    </div><!-- end col-->
+  </div><!-- end row-->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="//t1.kakaocdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+  const mpw = document.querySelector('input[name=mpw]');
+  const mpwCheck = document.querySelector('input[name=mpwCheck]');
+  const pMpw = document.querySelector('.mpw');
+  const pMpwCheck = document.querySelector('.mpwCheck');
+
+  // 공통 검사 함수
+  function validatePasswords() {
+    // 1. "1111" 제한 검사
+    if (mpw.value === "1111") {
+      pMpw.textContent = '"1111"은 사용할 수 없는 비밀번호입니다.';
+      pMpw.style.color = 'red';
+    } else {
+      pMpw.textContent = ''; // 조건 만족 시 문구 제거
+    }
+
+    // 2. 일치 여부 검사
+    if (mpwCheck.value.length > 0) { // 확인란에 입력이 있을 때만 검사
+      if (mpwCheck.value !== mpw.value) {
+        pMpwCheck.textContent = '비밀번호가 일치하지 않습니다.';
+        pMpwCheck.style.color = 'red';
+      } else {
+        pMpwCheck.textContent = '비밀번호가 일치합니다.';
+        pMpwCheck.style.color = 'blue';
+      }
+    } else {
+      pMpwCheck.textContent = '';
+    }
+  }
+
+  // 두 입력창 모두에 이벤트 연결
+  mpw.addEventListener('input', validatePasswords);
+  mpwCheck.addEventListener('input', validatePasswords);
+
+  document.getElementById('registerForm').addEventListener('submit', function(e) {
+    if (mpw.value === "1111" || mpw.value !== mpwCheck.value) {
+      e.preventDefault(); // 전송 중단
+      alert('비밀번호를 다시 확인해주세요.');
+    }
+  });
+</script>

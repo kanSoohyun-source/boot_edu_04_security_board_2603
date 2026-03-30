@@ -17,11 +17,14 @@
         </div>
         <div class="card-body">
           <form id="registerForm" action="/member/join" method="post">
-            <div class="input-group mb-3">
-              <span class="input-group-text">MID</span>
-              <input type="text" name="mid" class="form-control" placeholder="아이디를 입력하세요">
+            <div class="mb-3">
+              <div class="input-group mb-3">
+                <span class="input-group-text">MID</span>
+                <input type="text" name="mid" class="form-control" placeholder="아이디를 입력하세요">
+              </div>
+              <div class="msg" style="color: red; font-size: 0.8rem;">아이디를 입력하세요</div>
             </div>
-            <p></p>
+
 
             <div class="input-group mb-3">
               <span class="input-group-text">MPW</span>
@@ -31,6 +34,24 @@
             <div class="input-group mb-3">
               <span class="input-group-text">EMAIL</span>
               <input type="email" name="email" class="form-control">
+            </div>
+
+            <!-- 주소 -->
+            <!-- 자동으로 채워짐 -->
+            <div class="input-group mb-3">
+              <span class="input-group-text">우편번호</span>
+              <input type="text" name="zipCode" class="form-control" readonly>
+              <button type="button" class="btn btn-secondary zipCodeBtn">우편번호 검색</button>
+            </div>
+            <!-- 자동으로 채워짐 -->
+            <div class="input-group mb-3">
+              <span class="input-group-text">주소 1</span>
+              <input type="text" name="address1" class="form-control" readonly>
+            </div>
+            <!-- 나머지 주소라서 사용자가 입력 -->
+            <div class="input-group mb-3">
+              <span class="input-group-text">주소 2</span>
+              <input type="text" name="address2" class="form-control">
             </div>
 
             <div class="my-4">
@@ -44,55 +65,91 @@
       </div><!--end card-->
     </div><!-- end col-->
   </div><!-- end row-->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="//t1.kakaocdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </div>
 
 <script layout:fragment="script" th:inline="javascript">
-  const p = document.querySelector('p');
+  const error = [[${error}]]
+
+  if (error && error === 'mid') {
+    alert('동일한 MID를 가진 계정이 존재합니다.')
+  }
+  /*****************************
+   아이디 중복 확인
+   */
   const midInput = document.querySelector('input[name=mid]');
-  const submitBtn = document.querySelector('.submitBtn');
+  const msg = document.querySelector('.msg');
 
-  // 아이디 사용 가능 여부를 저장할 변수 (상태 관리)
-  let isIdValid = false;
+  async function getDupId(mid) {
+    // 댓글 조회
+    const response = await axios.get(`/member/isDupId?mid=${mid}`)
+    console.log(response.data)
+    return response.data;
+  }
 
-  // 1. 실시간 입력 검사
-  midInput.addEventListener('input', function (evt) {
-    const midValue = evt.target.value;
+  midInput.addEventListener('keyup', function () {
+    const mid = midInput.value.trim();
+    if (mid) {
+      getDupId(mid).then(data => {
+        if (data.isDup) {
+          console.log(data.isDup)
+          msg.textContent = '이미 사용중인 아이디입니다. 다른 아이디를 입력해주세요'
+          msg.style.color = 'red';
+          midInput.focus()
+        } else {
+          msg.textContent = '사용 가능한 아이디입니다'
+          msg.style.color = 'blue';
+        }
+      })
+    }
+  })
 
-    if (midValue.length === 0) {
-      p.textContent = '';
-      isIdValid = false;
-      return;
+  document.querySelector('.submitBtn').addEventListener('click', function (evt) {
+    evt.preventDefault()
+
+    const mid = midInput.value.trim()
+    if (!mid) {
+      alert('아이디를 입력해주세요')
+      midInput.focus()
+      return
     }
 
-    fetch(`/member/isDupId?mid=${midValue}`)
-            .then(response => response.json())
-            .then(data => {
-              if (data.isDup) {
-                p.textContent = '이미 사용 중인 아이디입니다.';
-                p.style.color = 'red';
-                isIdValid = false; // 중복됨
-              } else {
-                p.textContent = '사용 가능한 아이디입니다.';
-                p.style.color = 'gray';
-                isIdValid = true;  // 사용 가능
-              }
-            })
-            .catch(err => console.error("중복 체크 오류:", err));
-  });
+    getDupId(mid).then(data => {
+      console.log(data.isDup)
+      if (data.isDup) {
+        alert('이미 사용중인 아이디입니다. 다른 아이디를 입력해주세요')
+        midInput.focus()
+      } else {
+        document.getElementById('registerForm').submit()
+      }
+    })
+  })
 
-  // 2. Submit 버튼 클릭 시 최종 검사
-  submitBtn.addEventListener('submit', function (e) {
-    // 일단 제출을 중지시킴
-    e.preventDefault();
+  // 우편 번호 검색 버튼 클릭 시 카카오 우편 서비스 호출
+  document.querySelector('.zipCodeBtn').addEventListener('click', function () {
+    new kakao.Postcode({
+      oncomplete: function(data) {
+        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
-    if (!isIdValid) {
-      alert('아이디 중복 여부를 확인해 주세요.');
-      midInput.focus(); // 아이디 입력창으로 포커스 이동
-      return;
-    }
+        // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+        // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+        var addr = ''; // 주소 변수
 
-    // 모든 조건이 통과되면 폼 제출
-    alert('회원가입을 진행합니다.');
-    registerForm.submit();
-  });
+        //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+        if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+          addr = data.roadAddress;
+        } else { // 사용자가 지번 주소를 선택했을 경우(J)
+          addr = data.jibunAddress;
+        }
+
+        // 우편번호와 주소 정보를 해당 필드에 넣는다.
+        document.querySelector('input[name="zipCode"]').value = data.zonecode; // 우편번호 자동 입력
+        document.querySelector('input[name="address1"]').value = addr; // 주소 1 자동 입력
+        // 커서를 상세주소 필드로 이동한다.
+        document.querySelector('input[name="address2"]').focus(); // 주소 2로 커서 이동 -> 바로 입력 가능하도록
+      }
+    }).open();
+
+  })
 </script>

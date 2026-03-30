@@ -2,13 +2,12 @@ package boot_edu_04_security_board_2603.config;
 
 import boot_edu_04_security_board_2603.security.CustomUserDetailsService;
 import boot_edu_04_security_board_2603.security.handler.Custom403Handler;
+import boot_edu_04_security_board_2603.security.handler.CustomSocialLoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -16,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -43,6 +43,7 @@ public class CustomSecurityConfig {
         // spring security 에서 form 기반 로그인 설정
         httpSecurity.formLogin(config -> {
             config.loginPage("/member/login"); // 사용자 정의 로그인 페이지 설정
+            config.successHandler(authenticationSuccessHandler());
         });
 
         // CSRF 토큰 사용 안함
@@ -58,6 +59,15 @@ public class CustomSecurityConfig {
 
         httpSecurity.exceptionHandling(config -> {
             config.accessDeniedHandler(accessDeniedHandler());
+        });
+        // sns 로그인
+        httpSecurity.oauth2Login(config -> {
+           config.loginPage("/member/login");
+        });
+
+        httpSecurity.oauth2Login(config -> {
+            config.loginPage(("/member/login"));
+            config.successHandler(authenticationSuccessHandler());
         });
 
         return httpSecurity.build();
@@ -97,5 +107,9 @@ public class CustomSecurityConfig {
         return repository;
     }
 
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new CustomSocialLoginSuccessHandler();
+    }
 
 }
